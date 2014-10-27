@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>pigmbhpaymill</name>
+	<displayName><![CDATA[PAYMILL]]></displayName>
+	<version><![CDATA[2.1.0]]></version>
+	<description><![CDATA[PAYMILL credit card payments &amp;amp; direct debit]]></description>
+	<author><![CDATA[PayIntelligent GmbH]]></author>
+	<tab><![CDATA[payments_gateways]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>
