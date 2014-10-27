@@ -14,6 +14,8 @@
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
+require_once(_PS_ROOT_DIR_.'/modules/pigmbhpaymill/components/paymillUtil.php');
+require_once(_PS_ROOT_DIR_.'/modules/pigmbhpaymill/components/orderActionService.php');
 require_once(_PS_ROOT_DIR_.'/modules/pigmbhpaymill/components/configurationHandler.php');
 require_once(_PS_ROOT_DIR_.'/modules/pigmbhpaymill/components/models/configurationModel.php');
 require_once(_PS_ROOT_DIR_.'/modules/pigmbhpaymill/paymill/v2/lib/Services/Paymill/Webhooks.php');
@@ -27,8 +29,8 @@ require_once(_PS_ROOT_DIR_.'/modules/pigmbhpaymill/paymill/v2/lib/Services/Paymi
 if (!function_exists('curl_init'))
 	exit;
 
-class PigmbhPaymill extends PaymentModule
-{
+class PigmbhPaymill extends PaymentModule {
+
 	/**
 	 *
 	 * @var ConfigurationHandler
@@ -43,7 +45,7 @@ class PigmbhPaymill extends PaymentModule
 	{
 		$this->name = 'pigmbhpaymill';
 		$this->tab = 'payments_gateways';
-		$this->version = '2.0.1';
+		$this->version = '2.1.0';
 		$this->author = 'PayIntelligent GmbH';
 		$this->need_instance = 1;
 		$this->currencies = true;
@@ -56,8 +58,7 @@ class PigmbhPaymill extends PaymentModule
 		$this->description = $this->l('Accept online payments easily in up to 100 currencies. Free download & testing!');
 		//Adjust Modulname to the One use in Checkout, so the customer will be correctly redirected to the thank-you page
 		if ($this->context->cookie->__isset('paymill_payment_text'))
-            $this->displayName = $this->context->cookie->__get('paymill_payment_text');
-
+			$this->displayName = $this->context->cookie->__get('paymill_payment_text');
 	}
 
 	/**
@@ -70,11 +71,13 @@ class PigmbhPaymill extends PaymentModule
 		$this->warning = null;
 		if (is_null($this->warning) && !function_exists('curl_init'))
 			$this->warning = $this->l('cURL is required to use this module. Please install the php extention cURL.');
-		if (is_null($this->warning) && !(parent::install()
-			&& $this->registerHook('payment')
-			&& $this->registerHook('paymentReturn')
-			&& $this->registerHook('Header')
-			&& $this->registerHook('paymentTop')))
+		if (is_null($this->warning)
+				&& !(parent::install()
+				&& $this->registerHook('displayPayment')
+				&& $this->registerHook('displayPaymentReturn')
+				&& $this->registerHook('displayAdminOrder')
+				&& $this->registerHook('displayHeader')
+				&& $this->registerHook('displayPaymentTop')))
 			$this->warning = $this->l('There was an Error installing the module.');
 		if (is_null($this->warning) && !$this->configuration_handler->setDefaultConfiguration())
 			$this->warning = $this->l('There was an Error initiating the configuration.');
@@ -83,6 +86,7 @@ class PigmbhPaymill extends PaymentModule
 		if (is_null($this->warning) && !$this->addPaymillOrderState())
 			$this->warning = $this->l('There was an Error creating a custom orderstate.');
 
+		$this->registerHook('displayPaymentEU');
 		return is_null($this->warning);
 	}
 
@@ -94,9 +98,11 @@ class PigmbhPaymill extends PaymentModule
 	public function uninstall()
 	{
 		Configuration::deleteByName('PIGMBH_PAYMILL_ORDERSTATE', null);
-		return $this->unregisterHook('payment') && $this->unregisterHook('paymentReturn') && $this->unregisterHook('paymentTop')
-			&& $this->unregisterHook('Header')
-			&& parent::uninstall();
+		return $this->unregisterHook('payment')
+				&& $this->unregisterHook('paymentReturn')
+				&& $this->unregisterHook('paymentTop')
+				&& $this->unregisterHook('Header')
+				&& parent::uninstall();
 	}
 
 	/**
@@ -109,44 +115,79 @@ class PigmbhPaymill extends PaymentModule
 	{
 		$webhook = new Services_Paymill_Webhooks($private_key, 'https://api.paymill.com/v2/');
 		return $webhook->create(array(
-				'url' => _PS_BASE_URL_.__PS_BASE_URI__.'modules/pigmbhpaymill/webHookEndpoint.php',
-				'event_types' => array('refund.succeeded')
+					'url' => _PS_BASE_URL_.__PS_BASE_URI__.'modules/pigmbhpaymill/webHookEndpoint.php',
+					'event_types' => array('refund.succeeded')
 		));
 	}
 
 	/**
 	 * Load CSS and JS into HTML Head-tag
 	 */
-	public function hookHeader()
+	public function hookdisplayAdminOrder($hook)
 	{
-		if (!$this->active || $this->name !== Tools::getValue('module'))
+		$order_id = 0;
+		if (array_key_exists('id_order', $hook))
+			$order_id = (int)$hook['id_order'];
+		$util = new PaymillUtil();
+		if (!$this->active || !$util->isPaymillOrder($order_id))
+			return;
+		$order_action = new OrderActionService();
+		$result = null;
+		if (Tools::isSubmit('paymillCapture'))
+			$result = $order_action->capture($order_id);
+		elseif (Tools::isSubmit('paymillRefund'))
+			$result = $order_action->refund($order_id);
+		$db = Db::getInstance();
+		$sql = 'SELECT * FROM `'._DB_PREFIX_.'pigmbh_paymill_transactiondata` WHERE `id`='.$order_id;
+		$transactiondata = $db->executeS($sql, true, false);
+		$this->context->smarty->assign(array(
+			'showCapture' => $transactiondata[0]['preauth'] != '' && $transactiondata[0]['transaction'] == '',
+			'showRefund' => $transactiondata[0]['transaction'] != '' && $transactiondata[0]['refund'] == 0,
+			'orderId' => $order_id,
+			'orderaction' => $result,
+			'backwardcompatible' => _PS_VERSION_ < '1.6'
+		));
+
+		return $this->display(__FILE__, 'views/templates/hook/displayAdminOrder.tpl');
+	}
+
+	/**
+	 * Load CSS and JS into HTML Head-tag
+	 */
+	public function hookdisplayHeader()
+	{
+		if (!$this->active)
 			return;
 
-		$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_styles.css');
-		if (_PS_VERSION_ < '1.6')
-			$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_checkout_1_5.css');
+		if ($this->name === Tools::getValue('module'))
+		{
+			$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_styles.css');
+			if (_PS_VERSION_ < '1.6')
+				$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_checkout_1_5.css');
 
-		$this->context->controller->addJS('https://bridge.paymill.com/');
-		$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/BrandDetection.js');
-		$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/Iban.js');
-		$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/PaymillCheckout.js');
+			$this->context->controller->addJS('https://bridge.paymill.com/');
+			$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/BrandDetection.js');
+			$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/Iban.js');
+			$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/PaymillCheckout.js');
+		}
 	}
 
 	/**
 	 * @return string
 	 */
-	public function hookPayment()
+	public function hookdisplayPayment()
 	{
 		if (!$this->active)
 			return;
 
+                $private_key = Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY');
+                $public_key = Configuration::get('PIGMBH_PAYMILL_PUBLICKEY');
 		$this->context->smarty->assign(array(
 			'this_path' => $this->_path,
-			'this_path_ssl' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/'.$this->name.'/',
+			'this_path_ssl' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/'.$this->name,
 			'debit' => Configuration::get('PIGMBH_PAYMILL_DEBIT'),
 			'creditcard' => Configuration::get('PIGMBH_PAYMILL_CREDITCARD'),
-			'valid_key' => !in_array(Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY'), array('', null))
-			&& !in_array(Configuration::get('PIGMBH_PAYMILL_PUBLICKEY'), array('', null)),
+			'valid_key' => !empty($private_key) && !empty($public_key),
 		));
 		$template = 'views/templates/hook/payment.tpl';
 		if (_PS_VERSION_ < '1.6')
@@ -158,7 +199,39 @@ class PigmbhPaymill extends PaymentModule
 	/**
 	 * @return string
 	 */
-	public function hookPaymentTop()
+	public function hookdisplayPaymentEU()
+	{
+		if (!$this->active)
+			return;
+
+                $private_key = Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY');
+                $public_key = Configuration::get('PIGMBH_PAYMILL_PUBLICKEY');
+		$this->context->smarty->assign(array(
+			'this_path' => $this->_path,
+			'this_path_ssl' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/'.$this->name,
+			'debit' => Configuration::get('PIGMBH_PAYMILL_DEBIT'),
+			'creditcard' => Configuration::get('PIGMBH_PAYMILL_CREDITCARD'),
+			'valid_key' => !empty($private_key) && !empty($public_key),
+		));
+
+		return array(
+			array(
+				'cta_text' => $this->l('Paymill Directdebit'),
+				'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
+				'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'debit'))
+			),
+			array(
+				'cta_text' => $this->l('Paymill Creditcard'),
+				'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
+				'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'creditcard'))
+			)
+		);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function hookdisplayPaymentTop()
 	{
 		if (!$this->active && Tools::getValue('paymillerror') != 1)
 			return;
@@ -175,9 +248,9 @@ class PigmbhPaymill extends PaymentModule
 	/**
 	 * @return string
 	 */
-	public function hookPaymentReturn()
+	public function hookdisplayPaymentReturn()
 	{
-        if (!$this->active)
+		if (!$this->active)
 			return;
 		return $this->display(__FILE__, 'views/templates/hook/confirmation.tpl');
 	}
@@ -218,6 +291,15 @@ class PigmbhPaymill extends PaymentModule
 				);'
 			);
 
+			$db->execute('CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'pigmbh_paymill_transactiondata` (
+				`id` int(11) NOT NULL,
+				`preauth` text,
+				`transaction` text,
+				`refund` int(1),
+				PRIMARY KEY (`id`)
+				);'
+			);
+
 			return true;
 		} catch (Exception $exception) {
 			return false;
@@ -229,8 +311,11 @@ class PigmbhPaymill extends PaymentModule
 		$old_config = $this->configuration_handler->loadConfiguration();
 		$new_config = new ConfigurationModel();
 		$accepted_brands = array();
-		foreach (Tools::getValue('accepted_brands') as $accepted_brand)
-			$accepted_brands[$accepted_brand] = true;
+		if (Tools::getValue('accepted_brands'))
+		{
+			foreach (Tools::getValue('accepted_brands') as $accepted_brand)
+				$accepted_brands[$accepted_brand] = true;
+		}
 
 		$accepted_brands_result = array();
 		foreach (array_keys($old_config->getAccpetedCreditCards()) as $key)
@@ -250,6 +335,7 @@ class PigmbhPaymill extends PaymentModule
 		$new_config->setPublicKey(trim(Tools::getValue('publickey', $old_config->getPublicKey())));
 		$new_config->setAccpetedCreditCards($accepted_brands_result);
 		$new_config->setDebitDays(Tools::getValue('debit_days', '7'));
+		$new_config->setCapture(Tools::getValue('capture_option', 'OFF'));
 		$this->configuration_handler->updateConfiguration($new_config);
 		$this->registerPaymillWebhook($new_config->getPrivateKey());
 	}
@@ -272,7 +358,7 @@ class PigmbhPaymill extends PaymentModule
 		$logdata = array();
 		$detail_data = array();
 		$show_detail = false;
-		$search = $db->_escape(Tools::getValue('searchvalue', false));
+		$search = pSQL(Tools::getValue('searchvalue', false));
 		$connected_search = Tools::getValue('connectedsearch', 'off');
 		$this->limit = 10;
 		$where = $search && !empty($search) ? ' WHERE `debug` LIKE "%'.$search.'%" OR `message` LIKE "%'.$search.'%"' : null;
@@ -281,7 +367,7 @@ class PigmbhPaymill extends PaymentModule
 		$page = $max_page < Tools::getValue('paymillpage', 1) ? $max_page : Tools::getValue('paymillpage', 1);
 		$start = $page * $this->limit - $this->limit;
 
-        $myaction = $this->context->link->getAdminLink('AdminModules', false);
+		$myaction = $this->context->link->getAdminLink('AdminModules', false);
 		$myaction .= '&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
 		$myaction .= '&token='.Tools::getAdminTokenLite('AdminModules');
 
@@ -289,7 +375,7 @@ class PigmbhPaymill extends PaymentModule
 		if (Tools::getValue('paymillid') && Tools::getValue('paymillkey'))
 		{
 			$show_detail = true;
-			$row = $db->executeS('SELECT * FROM `'._DB_PREFIX_.'pigmbh_paymill_logging` WHERE id="'.$db->_escape(Tools::getValue('paymillid')).'";', true);
+			$row = $db->executeS('SELECT * FROM `'._DB_PREFIX_.'pigmbh_paymill_logging` WHERE id="'.pSQL(Tools::getValue('paymillid')).'";', true);
 			$detail_data['title'] = 'DEBUG';
 			$detail_data['data'] = $row[0]['debug'];
 		}
@@ -306,14 +392,12 @@ class PigmbhPaymill extends PaymentModule
 			{
 				$value = is_array($value) ? $value[1].'<br><br>'.$value[0] : $value;
 				$unsorted_print_data[$key] = $value;
-                if(Tools::strlen($value) >= 250)
-                    $unsorted_print_data['link'] = $myaction.'&paymillid='.$row['id'].'&paymillkey='.$key.'&searchvalue='.$search;
+				if (Tools::strlen($value) >= 250)
+					$unsorted_print_data['link'] = $myaction.'&paymillid='.$row['id'].'&paymillkey='.$key.'&searchvalue='.$search;
 			}
 
 			$logdata[] = $unsorted_print_data;
 		}
-
-
 
 		$this->context->smarty->assign(array(
 			'include' => array(
@@ -326,7 +410,7 @@ class PigmbhPaymill extends PaymentModule
 				'paymill_description' => 'Online payments made easy'
 			),
 			'config' => array(
-				'action' => 	$myaction,
+				'action' => $myaction,
 				'creditcard' => $this->getCheckboxState($configuration_model->getCreditcard()),
 				'debit' => $this->getCheckboxState($configuration_model->getDirectdebit()),
 				'privatekey' => $configuration_model->getPrivateKey(),
@@ -336,6 +420,7 @@ class PigmbhPaymill extends PaymentModule
 				'logging' => $this->getCheckboxState($configuration_model->getLogging()),
 				'fastcheckout' => $this->getCheckboxState($configuration_model->getFastcheckout()),
 				'accepted_brands' => $configuration_model->getAccpetedCreditCards(),
+				'capture_option' => $this->getCheckboxState($configuration_model->getCapture()),
 			),
 			'logging' => array(
 				'data' => $logdata,
