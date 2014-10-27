@@ -128,6 +128,8 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 					$this->payment_processor->getTransactionId(), Tools::substr('OrderID: '.(int)$this->module->currentOrder.' - Name:'.
 							$this->context->customer->lastname.', '.$this->context->customer->firstname, 0, 128)
 			);
+			
+			Configuration::updateValue('PIGMBHPAYMILL_CONFIGURATION_OK', true);
 
 			$url = $this->context->link->getPageLink(
 				'order-confirmation',
