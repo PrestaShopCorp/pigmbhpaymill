@@ -235,6 +235,8 @@ class PigmbhPaymill extends PaymentModule {
 	{
 		if (!$this->active && Tools::getValue('paymillerror') != 1)
 			return;
+			
+		$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_styles.css');
 
 		$this->context->smarty->assign(array(
 			'paymillerror' => Tools::getValue('paymillerror') == 1 ? $this->l('Payment could not be processed.') : null,
