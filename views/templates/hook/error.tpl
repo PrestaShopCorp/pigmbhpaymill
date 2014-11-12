@@ -13,7 +13,6 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}
 
-<link rel="stylesheet" type="text/css" href="{$modul_base|escape:'htmlall':'UTF-8'}/css/paymill_styles.css" />
 {if $paymillerror}
     <div class="paymill_error">{$errormessage|escape:'html':'UTF-8'}</div>
 {/if}
