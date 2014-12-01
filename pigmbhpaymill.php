@@ -45,7 +45,7 @@ class PigmbhPaymill extends PaymentModule {
 	{
 		$this->name = 'pigmbhpaymill';
 		$this->tab = 'payments_gateways';
-		$this->version = '2.1.2';
+		$this->version = '2.1.3';
 		$this->author = 'PayIntelligent GmbH';
 		$this->need_instance = 1;
 		$this->currencies = true;
