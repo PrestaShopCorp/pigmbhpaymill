@@ -241,7 +241,7 @@ class PigmbhPaymill extends PaymentModule {
 		$this->context->smarty->assign(array(
 			'paymillerror' => Tools::getValue('paymillerror') == 1 ? $this->l('Payment could not be processed.') : null,
 			'errormessage' => $this->errorCodeMapping(Tools::getValue('errorCode')),
-			'modul_base' => _PS_BASE_URL_.__PS_BASE_URI__.'modules/pigmbhpaymill/'
+			'modul_base' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/pigmbhpaymill/'
 		));
 
 		return $this->display(__FILE__, 'views/templates/hook/error.tpl');
