@@ -50,6 +50,7 @@ class PigmbhPaymill extends PaymentModule {
 		$this->need_instance = 1;
 		$this->currencies = true;
 		$this->currencies_mode = 'checkbox';
+		$this->is_eu_compatible = 1;
 		Configuration::updateValue('PIGMBH_PAYMILL_VERSION', $this->version);
 		parent::__construct();
 
