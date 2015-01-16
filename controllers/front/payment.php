@@ -23,8 +23,8 @@ require_once dirname(__FILE__).'/../../paymill/v2/lib/Services/Paymill/Payments.
  * @category   PayIntelligent
  * @copyright  Copyright (c) 2013 PayIntelligent GmbH (http://payintelligent.de)
  */
-class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController
-{
+class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController {
+
 	public $ssl = true;
 
 	/**
@@ -41,8 +41,8 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController
 		if (Configuration::get('PIGMBH_PAYMILL_CREDITCARD'))
 			$valid_payments[] = 'creditcard';
 		if (!in_array(Tools::getValue('payment'), $valid_payments))
-			Tools::redirectLink(__PS_BASE_URI__.'order.php?step=1');
-
+			Tools::redirectLink($this->context->link->getPageLink('order', true, null, array('step'=>'1')));
+		
 		$db_data = $this->getPaymillUserData();
 
 		$this->updatePaymillClient($db_data);
@@ -74,7 +74,7 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController
 			'public_key' => Configuration::get('PIGMBH_PAYMILL_PUBLICKEY'),
 			'payment' => Tools::getValue('payment'),
 			'paymill_debugging' => (int)Configuration::get('PIGMBH_PAYMILL_DEBUG') == 'on',
-			'modul_base' => _PS_BASE_URL_.__PS_BASE_URI__.'modules/pigmbhpaymill/',
+			'modul_base' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/pigmbhpaymill/',
 			'customer' => $this->context->customer->firstname.' '.$this->context->customer->lastname,
 			'prefilledFormData' => $this->updatePaymillPayment($db_data),
 			'acceptedBrands' => Configuration::get('PIGMBH_PAYMILL_ACCEPTED_BRANDS'),
@@ -128,7 +128,7 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController
 				$client_object->update(array(
 					'id' => $db_data['clientId'],
 					'email' => $this->context->customer->email
-					)
+						)
 				);
 			}
 		}
@@ -145,10 +145,11 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController
 		$db_data = array();
 		if (isset($this->context->customer->id))
 		{
+			$user_id = (int)$this->context->customer->id;
 			if (Tools::getValue('payment') == 'creditcard')
-				$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_creditcard_userdata` WHERE `userId`='.intval($this->context->customer->id);
+				$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_creditcard_userdata` WHERE `userId`='.$user_id;
 			elseif (Tools::getValue('payment') == 'debit')
-				$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_directdebit_userdata` WHERE `userId`='.intval($this->context->customer->id);
+				$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_directdebit_userdata` WHERE `userId`='.$user_id;
 
 			try {
 				$db_data = $db->getRow($sql);

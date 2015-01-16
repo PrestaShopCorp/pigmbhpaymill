@@ -24,8 +24,8 @@ require_once dirname(__FILE__).'/../../paymill/v2/lib/Services/Paymill/Transacti
  * @category   PayIntelligent
  * @copyright  Copyright (c) 2013 PayIntelligent GmbH (http://payintelligent.de)
  */
-class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController implements Services_Paymill_LoggingInterface
-{
+class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController implements Services_Paymill_LoggingInterface {
+
 	/**
 	 * @var Services_Paymill_PaymentProcessor
 	 */
@@ -56,7 +56,6 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 	 */
 	private $log_id;
 
-
 	/**
 	 * Initialize needed class variables and session
 	 */
@@ -75,12 +74,12 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 		if (empty($this->token))
 		{
 			$this->log('No paymill token was provided. Redirect to payments page.', null);
-			Tools::redirect('index.php?controller=order&step=1&paymillerror=1&paymillpayment='.$this->payment);
+			Tools::redirect($this->context->link->getPageLink('order', true, null, array('step' => '1', 'paymillerror' => '1', 'paymillpayment' => $this->payment)));
 		}
 		elseif (!in_array($this->payment, $valid_payments))
 		{
 			$this->log('The selected Paymentmethod is not valid.', $this->payment);
-			Tools::redirect('index.php?controller=order&step=1&paymillerror=1&paymillpayment='.$this->payment);
+			Tools::redirect($this->context->link->getPageLink('order', true, null, array('step' => '1', 'paymillerror' => '1', 'paymillpayment' => $this->payment)));
 		}
 
 		$this->log('Start processing payment with token', $this->token);
@@ -104,40 +103,53 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 		{
 			$customer = new Customer((int)$this->context->cart->id_customer);
 			$this->saveUserData(
-				$this->payment_processor->getClientId(), $this->payment_processor->getPaymentId(), (int)$this->context->cart->id_customer
+					$this->payment_processor->getClientId(), $this->payment_processor->getPaymentId(), (int)$this->context->cart->id_customer
 			);
-                        
-                        $payment_text = $this->getPaymentText();
+
+			$payment_text = $this->getPaymentText();
 			$this->context->cookie->__set('paymill_payment_text', $payment_text);
 			$this->module->validateOrder(
-				(int)$this->context->cart->id,
-				Configuration::get('PIGMBH_PAYMILL_ORDERSTATE'),
-				$this->context->cart->getOrderTotal(true, Cart::BOTH),
-				$payment_text,
-				null,
-				array(),
-				null,
-				false,
-				$customer->secure_key,
-				$this->context->shop
+					(int)$this->context->cart->id,
+					Configuration::get('PIGMBH_PAYMILL_ORDERSTATE'),
+					$this->context->cart->getOrderTotal(true, Cart::BOTH),
+					$payment_text,
+					null,
+					array(),
+					null,
+					false,
+					$customer->secure_key,
+					$this->context->shop
 			);
 
-                        $this->saveTransactionData((int)$this->module->currentOrder, $this->payment_processor->getPreauthId(), $this->payment_processor->getTransactionId());
+			$this->saveTransactionData(
+					(int)$this->module->currentOrder, $this->payment_processor->getPreauthId(), $this->payment_processor->getTransactionId()
+			);
 			$this->updatePaymillTransaction(
-				$this->payment_processor->getTransactionId(),
-				Tools::substr('OrderID: '.(int)$this->module->currentOrder.' - Name:'.
-					$this->context->customer->lastname.', '.$this->context->customer->firstname, 0, 128)
+					$this->payment_processor->getTransactionId(), Tools::substr('OrderID: '.(int)$this->module->currentOrder.' - Name:'.
+							$this->context->customer->lastname.', '.$this->context->customer->firstname, 0, 128)
 			);
+			
+			Configuration::updateValue('PIGMBHPAYMILL_CONFIGURATION_OK', true);
 
-			Tools::redirect('index.php?controller=order-confirmation?key='
-				.$customer->secure_key.'&id_cart='.(int)$this->context->cart->id
-				.'&id_module='.(int)$this->module->id.'&id_order='.(int)$this->module->currentOrder);
+			$url = $this->context->link->getPageLink(
+				'order-confirmation',
+				true,
+				null,
+				array(
+					'key' => $customer->secure_key,
+					'id_cart' => (int)$this->context->cart->id,
+					'id_module' => (int)$this->module->id,
+					'id_order' => (int)$this->module->currentOrder
+				)
+			);
+			Tools::redirect($url);
+			
 		}
 		else
 		{
 			$error_message = $this->module->errorCodeMapping($this->payment_processor->getErrorCode());
 			$this->log('ErrorCode', $error_message);
-			Tools::redirect('index.php?controller=order&step=3&paymillerror=1&errorCode='.$this->payment_processor->getErrorCode());
+			Tools::redirect($this->context->link->getPageLink('order', true, null, array('step' => '3', 'paymillerror' => '1', 'errorCode' => $this->payment_processor->getErrorCode())));
 		}
 	}
 
@@ -168,7 +180,7 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 	private function processPayment()
 	{
 		$this->payment_processor = new Services_Paymill_PaymentProcessor(
-			Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY'), 'https://api.paymill.com/v2/'
+				Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY'), 'https://api.paymill.com/v2/'
 		);
 
 		$this->payment_processor->setAmount((int)round($this->context->cart->getOrderTotal(true, Cart::BOTH) * 100));
@@ -181,16 +193,21 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 		$this->payment_processor->setSource(Configuration::get('PIGMBH_PAYMILL_VERSION').'_prestashop_core_'._PS_VERSION_);
 
 		if ($this->payment == 'creditcard')
-			$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_creditcard_userdata` WHERE `userId`='.intval ($this->context->customer->id);
+			$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_creditcard_userdata` WHERE `userId`='.
+					(int)$this->context->customer->id;
 		elseif ($this->payment == 'debit')
-			$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_directdebit_userdata` WHERE `userId`='.intval($this->context->customer->id);
+			$sql = 'SELECT `clientId`,`paymentId` FROM `'._DB_PREFIX_.'pigmbh_paymill_directdebit_userdata` WHERE `userId`='.
+					(int)$this->context->customer->id;
 		$user_data = $this->db->getRow($sql);
 		$this->payment_processor->setClientId(!empty($user_data['clientId']) ? $user_data['clientId'] : null);
 
 		if ($this->token === 'dummyToken')
 			$this->payment_processor->setPaymentId(!empty($user_data['paymentId']) ? $user_data['paymentId'] : null);
 
-		$result = $this->payment_processor->processPayment(Configuration::get('PIGMBH_PAYMILL_CAPTURE'));
+		$capture_now = true;
+		if ($this->payment == 'creditcard')
+			$capture_now = Configuration::get('PIGMBH_PAYMILL_CAPTURE') !== 'on';
+		$result = $this->payment_processor->processPayment($capture_now);
 
 		$this->log('Payment processing resulted in', ($result ? 'Success' : 'Fail'));
 		return $result;
@@ -210,7 +227,7 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 				'identifier' => $this->log_id,
 				'debug' => $db->escape($debug_info),
 				'message' => $db->escape($message),
-				), false, false, Db::INSERT, true);
+					), false, false, Db::INSERT, true);
 		}
 	}
 
@@ -226,25 +243,29 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 		$db = Db::getInstance();
 		$table = Tools::getValue('payment') == 'creditcard' ? 'pigmbh_paymill_creditcard_userdata' : 'pigmbh_paymill_directdebit_userdata';
 		try {
-			$query = 'SELECT COUNT(*) as `count` FROM `'._DB_PREFIX_.$table.'` WHERE userId="'.intval($user_id).'";';
+			$query = 'SELECT COUNT(*) as `count` FROM `'._DB_PREFIX_.$table.'` WHERE userId="'.(int)$user_id.'";';
 			$count = $db->executeS($query, true);
 			$count = (int)$count[0]['count'];
 			if ($count === 0)
 			{
+				if (Configuration::get('PIGMBH_PAYMILL_FASTCHECKOUT') !== 'on')
+					$payment_id = null;
 				$this->log('Inserted new data.', var_export(array($client_id, $payment_id, $user_id), true));
-				$sql = 'INSERT INTO `'._DB_PREFIX_.$table.'` (`clientId`, `paymentId`, `userId`) VALUES("'.(string)$db->_escape($client_id).'", "'.(string)$db->_escape($payment_id).'", '.intval($user_id).');';
+				$sql = 'INSERT INTO `'._DB_PREFIX_.$table.'` (`clientId`, `paymentId`, `userId`) VALUES("'.pSQL($client_id).'", "'.
+						pSQL($payment_id).'", '.(int)$user_id.');';
 			}
 			elseif ($count === 1)
 			{
 				if (Configuration::get('PIGMBH_PAYMILL_FASTCHECKOUT') === 'on')
 				{
 					$this->log('Updated User '.$client_id, var_export(array($client_id, $payment_id), true));
-					$sql = 'UPDATE `'._DB_PREFIX_.$table.'` SET `clientId`="'.(string)$db->_escape($client_id).'", `paymentId`="'.(string)$db->_escape($payment_id).'" WHERE `userId`='.intval($user_id);
+					$sql = 'UPDATE `'._DB_PREFIX_.$table.'` SET `clientId`="'.pSQL($client_id).'", `paymentId`="'.
+							pSQL($payment_id).'" WHERE `userId`='.(int)$user_id;
 				}
 				else
 				{
 					$this->log('Updated User $client_id.', var_export(array($client_id), true));
-					$sql = 'UPDATE `'._DB_PREFIX_.$table.'` SET `clientId`="'.(string)$db->_escape($client_id).'" WHERE `userId`='.intval($user_id);
+					$sql = 'UPDATE `'._DB_PREFIX_.$table.'` SET `clientId`="'.pSQL($client_id).'" WHERE `userId`='.(int)$user_id;
 				}
 			}
 
@@ -253,19 +274,19 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 			$this->log('Failed saving UserData. ', $exception->getMessage());
 		}
 	}
-        
-	private function saveTransactionData($orderId, $preauth, $transaction)
+
+	private function saveTransactionData($order_id, $preauth, $transaction)
 	{
-            $db = Db::getInstance();
-            $sql = 'INSERT INTO `'._DB_PREFIX_.'pigmbh_paymill_transactiondata` (`id`, `preauth`, `transaction`) VALUES("'.
-                    intval($orderId).'", "'.
-                    (string)$db->_escape($preauth).'", "'.
-                    (string)$db->_escape($transaction).'");';
-            try{
-                $db->execute($sql);
-            } catch (Exception $exception) {
-                $this->log('Failed saving Transactiondata. ', $exception->getMessage());
-            }
+		$db = Db::getInstance();
+		$sql = 'INSERT INTO `'._DB_PREFIX_.'pigmbh_paymill_transactiondata` (`id`, `preauth`, `transaction`, `refund`) VALUES("'.
+				(int)$order_id.'", "'.
+				pSQL($preauth).'", "'.
+				pSQL($transaction).'", 0);';
+		try {
+			$db->execute($sql);
+		} catch (Exception $exception) {
+			$this->log('Failed saving Transactiondata. ', $exception->getMessage());
+		}
 	}
 
 	/**
@@ -277,7 +298,7 @@ class PigmbhpaymillValidationModuleFrontController extends ModuleFrontController
 	private function updatePaymillTransaction($transaction_id, $description)
 	{
 		$transaction_object = new Services_Paymill_Transactions(
-			Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY'), 'https://api.paymill.com/v2/'
+				Configuration::get('PIGMBH_PAYMILL_PRIVATEKEY'), 'https://api.paymill.com/v2/'
 		);
 
 		$transaction_object->update(array(
