@@ -142,7 +142,7 @@ function isSepa()
                             if (paymillcheckout.paymentmean === 'creditcard') {
                                 paymill.createToken({
                                     number: $('#paymill-card-number').val(),
-                                    cardholder: $('#paymill-account-holder').val(),
+                                    cardholder: $('#paymill-card-holder').val(),
                                     exp_month: $('#paymill-card-expirydate').val().split('/')[0],
                                     exp_year: $('#paymill-card-expirydate').val().split('/')[1],
                                     cvc: $('#paymill-card-cvc').val(),
