@@ -64,7 +64,7 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_82130ba6c49d07bc4
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_db4d7b1139c5f5887821a54d8ef27c71'] = 'Betrag';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_9fa45a4dfd768b1faa4d245792fbd185'] = 'Die mit einem * markierten Felder sind Pflichtfelder.';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_3adf712b8413a09c3c9de40a5b23fc5d'] = 'Zahlartenauswahl';
-$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_a240fa27925a635b08dc28c9e4f9216d'] = 'Bestellung';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_a240fa27925a635b08dc28c9e4f9216d'] = 'zahlungspflichtig bestellen';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_60fee965857f452db39d271c40bf8c79'] = 'PAYMILL Kreditkartenzahlung & ELV';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_f1d3b424cd68795ecaa552883759aceb'] = 'Bestellungsübersicht';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_572da7ef1411f2a12409e752f3eb2f7a'] = 'Ihr Warenkorb ist leer.';
@@ -79,7 +79,7 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_82130ba6c49d07bc4
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_db4d7b1139c5f5887821a54d8ef27c71'] = 'Betrag';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_9fa45a4dfd768b1faa4d245792fbd185'] = 'Die mit einem * markierten Felder sind Pflichtfelder.';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_3adf712b8413a09c3c9de40a5b23fc5d'] = 'Zahlartenauswahl';
-$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_a240fa27925a635b08dc28c9e4f9216d'] = 'Bestellung';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_a240fa27925a635b08dc28c9e4f9216d'] = 'zahlungspflichtig bestellen';
 $_MODULE['<{pigmbhpaymill}prestashop>confirmation_7a223127bd5f4a87a989fb8c560bb15b'] = 'Vielen Dank für Ihre Bestellung';
 $_MODULE['<{pigmbhpaymill}prestashop>payment1_5_9300f4d366a0f5e0b57afef7e8a7474d'] = 'Kreditkarte';
 $_MODULE['<{pigmbhpaymill}prestashop>payment1_5_89ce55b91d58a25f4271514be6b1146e'] = 'ELV';
