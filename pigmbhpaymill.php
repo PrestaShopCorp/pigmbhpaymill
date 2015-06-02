@@ -45,7 +45,7 @@ class PigmbhPaymill extends PaymentModule {
 	{
 		$this->name = 'pigmbhpaymill';
 		$this->tab = 'payments_gateways';
-		$this->version = '2.1.5';
+		$this->version = '2.1.6';
 		$this->author = 'PayIntelligent GmbH';
 		$this->need_instance = 1;
 		$this->currencies = true;
@@ -215,18 +215,23 @@ class PigmbhPaymill extends PaymentModule {
 			'valid_key' => !empty($private_key) && !empty($public_key),
 		));
 
-		return array(
-			array(
-				'cta_text' => $this->l('Paymill Directdebit'),
-				'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
-				'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'debit'))
-			),
-			array(
-				'cta_text' => $this->l('Paymill Creditcard'),
-				'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
-				'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'creditcard'))
-			)
-		);
+                $payments = array();
+                if(Configuration::get('PIGMBH_PAYMILL_DEBIT') === 'on'){
+                    $payments[] = array(
+                        'cta_text' => $this->l('Paymill Directdebit'),
+                        'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
+                        'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'debit'))
+                    );
+                }
+                if(Configuration::get('PIGMBH_PAYMILL_CREDITCARD') === 'on'){
+                    $payments[] = array(
+                        'cta_text' => $this->l('Paymill Creditcard'),
+                        'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
+                        'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'creditcard'))
+                    );
+                }
+                    
+                return $payments;
 	}
 
 	/**
@@ -350,7 +355,7 @@ class PigmbhPaymill extends PaymentModule {
 	 */
 	public function getContent()
 	{
-		//configuration
+                //configuration
 		if (Tools::isSubmit('btnSubmit'))
 			$this->onConfigurationSave();
 
