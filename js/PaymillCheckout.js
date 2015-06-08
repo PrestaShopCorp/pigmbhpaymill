@@ -232,6 +232,12 @@ function PaymillFrameResponseHandler(error, result)
     }
 }
 
+function paymillEmbedFrame()
+{
+    PAYMILL_FASTCHECKOUT_CC_CHANGED = true;
+    paymill.embedFrame('paymillFormContainer', paymill_iframe_options,  PaymillFrameResponseHandler);
+}
+
     $(document).ready(function() {
         paymillcheckout.prefilled = getFormData(paymillcheckout.prefilled, true);
         $("#paymill_form").submit(function(event) {
