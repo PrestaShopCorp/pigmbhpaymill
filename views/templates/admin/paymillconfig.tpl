@@ -75,6 +75,21 @@
             <input type="text" class="paymill_config_text" name="publickey" value="{$config.publickey|escape:'htmlall':'UTF-8'}" />
         </div>
         <div class="clear"></div>
+        
+        <label>{l s='PCI-DSS Compliance' mod='pigmbhpaymill'}</label>
+        <div class="margin-form">
+            <select name="pci">
+                <option value="0" {if $config.pci == 0}selected{/if}>SAQ A</option>
+                <option value="1" {if $config.pci == 1}selected{/if}>SAQ A-EP</option>
+            </select>
+        </div>
+        <div class="clear"></div>
+        
+        <label>{l s='Stylesheet' mod='pigmbhpaymill'}</label>
+        <div class="margin-form">
+            <input type="text" class="paymill_config_text" name="stylesheet" value="{$config.stylesheet|escape:'html':'UTF-8'}" />
+        </div>
+        <div class="clear"></div>
 
         <label>{l s='Days until the debit' mod='pigmbhpaymill'}</label>
         <div class="margin-form">

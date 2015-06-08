@@ -45,7 +45,7 @@ class PigmbhPaymill extends PaymentModule {
 	{
 		$this->name = 'pigmbhpaymill';
 		$this->tab = 'payments_gateways';
-		$this->version = '2.1.6';
+		$this->version = '2.2.0';
 		$this->author = 'PayIntelligent GmbH';
 		$this->need_instance = 1;
 		$this->currencies = true;
@@ -230,7 +230,7 @@ class PigmbhPaymill extends PaymentModule {
                         'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'creditcard'))
                     );
                 }
-                    
+
                 return $payments;
 	}
 
@@ -241,7 +241,7 @@ class PigmbhPaymill extends PaymentModule {
 	{
 		if (!$this->active && Tools::getValue('paymillerror') != 1)
 			return;
-			
+
 		$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_styles.css');
 
 		$this->context->smarty->assign(array(
@@ -344,6 +344,8 @@ class PigmbhPaymill extends PaymentModule {
 		$new_config->setAccpetedCreditCards($accepted_brands_result);
 		$new_config->setDebitDays(Tools::getValue('debit_days', '7'));
 		$new_config->setCapture(Tools::getValue('capture_option', 'OFF'));
+		$new_config->setPci(Tools::getValue('pci',0));
+		$new_config->setStylesheet(Tools::getValue('stylesheet',''));
 		$this->configuration_handler->updateConfiguration($new_config);
 		$this->registerPaymillWebhook($new_config->getPrivateKey());
 	}
@@ -429,6 +431,8 @@ class PigmbhPaymill extends PaymentModule {
 				'fastcheckout' => $this->getCheckboxState($configuration_model->getFastcheckout()),
 				'accepted_brands' => $configuration_model->getAccpetedCreditCards(),
 				'capture_option' => $this->getCheckboxState($configuration_model->getCapture()),
+				'pci' => $configuration_model->getPci(),
+				'stylesheet' => $configuration_model->getStylesheet(),
 			),
 			'logging' => array(
 				'data' => $logdata,
