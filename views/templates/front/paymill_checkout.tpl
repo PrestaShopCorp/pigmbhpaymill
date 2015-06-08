@@ -57,6 +57,34 @@
     paymillcheckout.currency = '{$currency_iso|escape:'html':'UTF-8'}';
     paymillcheckout.prefilled = new Array();
     paymillcheckout.submitted = false;
+    var paymill_iframe_options = {
+        labels: {
+          number:     '{l s='Credit Card Number' mod='pigmbhpaymill'}',
+          cvc:        '{l s='CVC' mod='pigmbhpaymill'}',
+          cardholder: '{l s='Credit Card Holder' mod='pigmbhpaymill'}',
+          exp:        '{l s='Valid until (MM/YYYY)' mod='pigmbhpaymill'}'
+        },
+        placeholders: {
+          number:     '',
+          cvc:        '',
+          cardholder: '',
+          exp_month:  '',
+          exp_year:   ''
+        },
+        errors: {
+          number:     paymillcheckout.errormessages.bridge.invalid_card_number,
+          cvc:        paymillcheckout.errormessages.bridge.invalid_card_cvc,
+          exp:        paymillcheckout.errormessages.bridge.invalid_card_exp
+        }        
+    };
+    {if $stylesheet != ''}
+        paymill_iframe_options.stylesheet = '{$stylesheet|escape:'html'}';
+    {/if}
+    {if $pci_mode == 1}
+        paymill_iframe = true;    
+    {else}
+        paymill_iframe = false;
+    {/if}
 </script>
 
 {if $use_backward_compatible_checkout}
