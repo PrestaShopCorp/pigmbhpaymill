@@ -79,8 +79,7 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController {
 			'prefilledFormData' => $this->updatePaymillPayment($db_data),
 			'acceptedBrands' => Configuration::get('PIGMBH_PAYMILL_ACCEPTED_BRANDS'),
 			'acceptedBrandsDecoded' => $brands,
-            'pci_mode' => Configuration::get('PIGMBH_PAYMILL_PCI'),
-            'stylesheet' => Configuration::get('PIGMBH_PAYMILL_STYLESHEET')
+                        'pci_mode' => Configuration::get('PIGMBH_PAYMILL_PCI')
 		);
 
 		$this->context->smarty->assign($data);

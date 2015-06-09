@@ -13,7 +13,7 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}
 
-{if $prefilledFormData.last4 === '' || $prefilledFormData.card_holder === 'test' || $prefilledFormData.expire_date === ''}
+{if $prefilledFormData.last4 == '' || $prefilledFormData.expire_date == ''}
     <script lang="text/javascript">
         paymillEmbedFrame();
     </script>
@@ -21,7 +21,10 @@
     <table id="paymill_fast_checkout_table">
         <tr>
             <td>{l s='Credit Card Number' mod='pigmbhpaymill'}: </td>
-            <td class="paymill-card-number-{$prefilledFormData.card_type}">{if $prefilledFormData.last4}************{$prefilledFormData.last4}{/if}</td>
+            <td>
+                {if $prefilledFormData.last4}************{$prefilledFormData.last4}{/if}
+                <img src="{$modul_base|escape:'html':'UTF-8'}img/32x20_{$prefilledFormData.card_type}.png" alt="{$prefilledFormData.card_type}">
+            </td>
         </tr>
         <tr>
             <td>{l s='CVC' mod='pigmbhpaymill'}: </td>

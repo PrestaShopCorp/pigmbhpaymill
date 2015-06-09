@@ -345,7 +345,6 @@ class PigmbhPaymill extends PaymentModule {
 		$new_config->setDebitDays(Tools::getValue('debit_days', '7'));
 		$new_config->setCapture(Tools::getValue('capture_option', 'OFF'));
 		$new_config->setPci(Tools::getValue('pci',0));
-		$new_config->setStylesheet(Tools::getValue('stylesheet',''));
 		$this->configuration_handler->updateConfiguration($new_config);
 		$this->registerPaymillWebhook($new_config->getPrivateKey());
 	}
@@ -431,8 +430,7 @@ class PigmbhPaymill extends PaymentModule {
 				'fastcheckout' => $this->getCheckboxState($configuration_model->getFastcheckout()),
 				'accepted_brands' => $configuration_model->getAccpetedCreditCards(),
 				'capture_option' => $this->getCheckboxState($configuration_model->getCapture()),
-				'pci' => $configuration_model->getPci(),
-				'stylesheet' => $configuration_model->getStylesheet(),
+				'pci' => $configuration_model->getPci()
 			),
 			'logging' => array(
 				'data' => $logdata,

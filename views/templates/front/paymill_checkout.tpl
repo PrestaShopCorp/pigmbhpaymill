@@ -59,28 +59,9 @@
     paymillcheckout.submitted = false;
     paymillcheckout.iframe = new Object();
     paymillcheckout.iframe.options = {
-        labels: {
-          number:     '{l s='Credit Card Number' mod='pigmbhpaymill'}',
-          cvc:        '{l s='CVC' mod='pigmbhpaymill'}',
-          cardholder: '{l s='Credit Card Holder' mod='pigmbhpaymill'}',
-          exp:        '{l s='Valid until (MM/YYYY)' mod='pigmbhpaymill'}'
-        },
-        placeholders: {
-          number:     '',
-          cvc:        '',
-          cardholder: '',
-          exp_month:  '',
-          exp_year:   ''
-        },
-        errors: {
-          number:     paymillcheckout.errormessages.bridge.invalid_card_number,
-          cvc:        paymillcheckout.errormessages.bridge.invalid_card_cvc,
-          exp:        paymillcheckout.errormessages.bridge.invalid_card_exp
-        },
-        stylesheet: '{$stylesheet|escape:'html'}'
-        
+        lang: '{l s='en' mod='pigmbhpaymill'}'
     };
-    paymillcheckout.iframe.active = {$pci_mode == 0};
+    paymillcheckout.iframe.active = {if $pci_mode == 0}true{else}false{/if};
     paymillcheckout.iframe.changefastcheckout = false;
 </script>
 
