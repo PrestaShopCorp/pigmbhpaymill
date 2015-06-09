@@ -71,47 +71,26 @@ class ConfigurationModel {
 	 */
 	private $capture;
 
-    /**
+        /**
 	 * @var string
 	 */
 	private $pci;
 
-    /**
-	 * @var string
-	 */
-	private $stylesheet;
+        /**
+         * @return string
+         */
+        function getPci()
+        {
+            return $this->pci;
+        }
 
-    /**
-     * @return string
-     */
-    function getPci()
-    {
-        return $this->pci;
-    }
-
-    /**
-     * @return string
-     */
-    function getStylesheet()
-    {
-        return $this->stylesheet;
-    }
-
-    /**
-     * @param string $pci
-     */
-    function setPci($pci)
-    {
-        $this->pci = $pci;
-    }
-
-    /**
-     * @param string $stylesheet
-     */
-    function setStylesheet($stylesheet)
-    {
-        $this->stylesheet = $stylesheet;
-    }
+        /**
+         * @param string $pci
+         */
+        function setPci($pci)
+        {
+            $this->pci = $pci;
+        }
 
 	/**
 	 * @return string
