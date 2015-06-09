@@ -84,13 +84,14 @@
             </select>
         </div>
         <div class="clear"></div>
-        
-        <label>{l s='Stylesheet' mod='pigmbhpaymill'}</label>
-        <div class="margin-form">
-            <input type="text" class="paymill_config_text" name="stylesheet" value="{$config.stylesheet|escape:'html':'UTF-8'}" />
-        </div>
-        <div class="clear"></div>
-
+        {*
+            Removed Stylesheet config for now
+            <label>{l s='Stylesheet' mod='pigmbhpaymill'}</label>
+            <div class="margin-form">
+                <input type="text" class="paymill_config_text" name="stylesheet" value="{$config.stylesheet|escape:'html':'UTF-8'}" />
+            </div>
+            <div class="clear"></div>
+        *}
         <label>{l s='Days until the debit' mod='pigmbhpaymill'}</label>
         <div class="margin-form">
             <input type="text" class="paymill_config_text" name="debit_days" value="{$config.debit_days|escape:'htmlall':'UTF-8'}" />

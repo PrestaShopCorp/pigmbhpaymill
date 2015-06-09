@@ -84,7 +84,9 @@ class ConfigurationHandler
 		Configuration::updateValue('PIGMBH_PAYMILL_FASTCHECKOUT', $model->getFastcheckout());
 		Configuration::updateValue('PIGMBH_PAYMILL_CAPTURE', $model->getCapture());
 		Configuration::updateValue('PIGMBH_PAYMILL_ACCEPTED_BRANDS', Tools::jsonEncode($model->getAccpetedCreditCards()));
-		Configuration::updateValue('PIGMBH_PAYMILL_STYLESHEET', $model->getStylesheet());
+                // Removed Stylesheet config for now. empty string will be saved so it won't affect the frontend
+                //Configuration::updateValue('PIGMBH_PAYMILL_STYLESHEET', $model->getStylesheet());
+		Configuration::updateValue('PIGMBH_PAYMILL_STYLESHEET', '');
 		Configuration::updateValue('PIGMBH_PAYMILL_PCI', $model->getPci());
 	}
 
@@ -119,7 +121,7 @@ class ConfigurationHandler
 				)
 			)
 		);
-        Configuration::updateValue('PIGMBH_PAYMILL_STYLESHEET', '');
+                Configuration::updateValue('PIGMBH_PAYMILL_STYLESHEET', '');
 		Configuration::updateValue('PIGMBH_PAYMILL_PCI', 0);
 
 		return true; //needs to return true for installation
