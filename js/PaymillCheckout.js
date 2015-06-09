@@ -31,6 +31,11 @@ function validate()
     $("#paymill-error").text('');
     $(".field-error").removeClass('field-error').animate(300);
     if (paymillcheckout.paymentmean === 'creditcard') {
+        // no validation needed if iframe is active
+        if(paymillcheckout.iframe.active){
+            return true;
+        }
+        
         if (paymill.cardType($('#paymill-card-number').val()).toLowerCase() === 'maestro' && (!$('#paymill-card-cvc').val() || $('#paymill-card-cvc').val() === "000")) {
             $('#paymill-card-cvc').val('000');
         } else if (!paymill.validateCvc($('#paymill-card-cvc').val())) {
@@ -234,102 +239,102 @@ function PaymillFrameResponseHandler(error, result)
 
 function paymillEmbedFrame()
 {
-    PAYMILL_FASTCHECKOUT_CC_CHANGED = true;
-    paymill.embedFrame('paymillFormContainer', paymill_iframe_options,  PaymillFrameResponseHandler);
+    paymillcheckout.iframe.changefastcheckout = true;
+    paymill.embedFrame('paymill_form_container', paymillcheckout.iframe.options,  PaymillFrameResponseHandler);
 }
 
-    $(document).ready(function() {
-        paymillcheckout.prefilled = getFormData(paymillcheckout.prefilled, true);
-        $("#paymill_form").submit(function(event) {
-            if (!paymillcheckout.submitted) {
-                event.preventDefault();
-                $("#submitButton").attr('disabled', true);
-                var formdata = new Array();
-                formdata = getFormData(formdata, false);
+$(document).ready(function() {
+    paymillcheckout.prefilled = getFormData(paymillcheckout.prefilled, true);
+    $("#paymill_form").submit(function(event) {
+        if (!paymillcheckout.submitted) {
+            event.preventDefault();
+            $("#submitButton").attr('disabled', true);
+            var formdata = new Array();
+            formdata = getFormData(formdata, false);
 
-                if (paymillcheckout.prefilled.toString() === formdata.toString()) {
-                    result = new Object();
-                    result.token = 'dummyToken';
-                    PaymillResponseHandler(null, result);
-                } else {
-                    if (validate()) {
-                        try {
-                            if (paymillcheckout.paymentmean === 'creditcard') {
-                                if (paymill_iframe) {
-                                    paymill.createTokenViaFrame({
-                                        amount_int: paymillcheckout.amount,
-                                        currency:   paymillcheckout.currency
-                                    }, PaymillResponseHandler);
-                                }else{
-                                    paymill.createToken({
-                                        number: $('#paymill-card-number').val(),
-                                        cardholder: $('#paymill-card-holder').val(),
-                                        exp_month: $('#paymill-card-expirydate').val().split('/')[0],
-                                        exp_year: $('#paymill-card-expirydate').val().split('/')[1],
-                                        cvc: $('#paymill-card-cvc').val(),
-                                        amount_int: paymillcheckout.amount,
-                                        currency: paymillcheckout.currency
-                                    }, PaymillResponseHandler);
-                                }
-                            } else if (paymillcheckout.paymentmean === 'debit') {
-                                if (!isSepa()) {
-                                    paymill.createToken({
-                                        number: $('#paymill_iban').val(),
-                                        bank: $('#paymill_bic').val(),
-                                        accountholder: $('#paymill_accountholder').val()
-                                    }, PaymillResponseHandler);
-                                } else {
-                                    paymill.createToken({
-                                        iban: $('#paymill_iban').val(),
-                                        bic: $('#paymill_bic').val(),
-                                        accountholder: $('#paymill_accountholder').val()
-                                    }, PaymillResponseHandler);
-                                }
+            if (paymillcheckout.prefilled.toString() === formdata.toString() && !paymillcheckout.iframe.changefastcheckout) {
+                result = new Object();
+                result.token = 'dummyToken';
+                PaymillResponseHandler(null, result);
+            } else {
+                if (validate()) {
+                    try {
+                        if (paymillcheckout.paymentmean === 'creditcard') {
+                            if (paymillcheckout.iframe.active) {
+                                paymill.createTokenViaFrame({
+                                    amount_int: paymillcheckout.amount,
+                                    currency:   paymillcheckout.currency
+                                }, PaymillResponseHandler);
+                            }else{
+                                paymill.createToken({
+                                    number: $('#paymill-card-number').val(),
+                                    cardholder: $('#paymill-card-holder').val(),
+                                    exp_month: $('#paymill-card-expirydate').val().split('/')[0],
+                                    exp_year: $('#paymill-card-expirydate').val().split('/')[1],
+                                    cvc: $('#paymill-card-cvc').val(),
+                                    amount_int: paymillcheckout.amount,
+                                    currency: paymillcheckout.currency
+                                }, PaymillResponseHandler);
                             }
-                        } catch (e) {
-                            alert("Ein Fehler ist aufgetreten: " + e);
+                        } else if (paymillcheckout.paymentmean === 'debit') {
+                            if (!isSepa()) {
+                                paymill.createToken({
+                                    number: $('#paymill_iban').val(),
+                                    bank: $('#paymill_bic').val(),
+                                    accountholder: $('#paymill_accountholder').val()
+                                }, PaymillResponseHandler);
+                            } else {
+                                paymill.createToken({
+                                    iban: $('#paymill_iban').val(),
+                                    bic: $('#paymill_bic').val(),
+                                    accountholder: $('#paymill_accountholder').val()
+                                }, PaymillResponseHandler);
+                            }
                         }
+                    } catch (e) {
+                        alert("Ein Fehler ist aufgetreten: " + e);
                     }
                 }
             }
+        }
 
-            return paymillcheckout.submitted;
-        });
-
-        // Eventlistener
-        $('#paymill-card-number').keyup(function() {
-            $("#paymill-card-number")[0].className = $("#paymill-card-number")[0].className.replace(/paymill-card-number-.*/g, '');
-            var cardnumber = $('#paymill-card-number').val();
-            var detector = new BrandDetection();
-            var brand = detector.detect(cardnumber);
-
-            var allDisabled = true;
-            for (possibleAcceptableBrand in paymillcheckout.acceptedBrands) {
-                if (paymillcheckout.acceptedBrands[possibleAcceptableBrand]) {
-                    allDisabled = false;
-                }
-            }
-
-            if ((brand !== 'unknown' && paymillcheckout.acceptedBrands[brand]) || allDisabled) {
-                $('#paymill-card-number').addClass("paymill-card-number-" + brand);
-                if (!detector.validate(cardnumber)) {
-                    $('#paymill-card-number').addClass("paymill-card-number-grayscale");
-                }
-            }
-        });
-
-        $('#paymill-card-expirydate').keyup(function() {
-            var expiryDate = $("#paymill-card-expirydate").val();
-            if (expiryDate.match(/^\d\d$/)) {
-                expiryDate += "/";
-                $("#paymill-card-expirydate").val(expiryDate);
-            }
-        });
-        
-        $('#paymill_fast_checkout_iframe_change').click(function (event) {
-            $( "#paymill_fast_checkout_table" ).remove();
-            paymillEmbedFrame();
-        });
-
-        
+        return paymillcheckout.submitted;
     });
+
+    // Eventlistener
+    $('#paymill-card-number').keyup(function() {
+        $("#paymill-card-number")[0].className = $("#paymill-card-number")[0].className.replace(/paymill-card-number-.*/g, '');
+        var cardnumber = $('#paymill-card-number').val();
+        var detector = new BrandDetection();
+        var brand = detector.detect(cardnumber);
+
+        var allDisabled = true;
+        for (possibleAcceptableBrand in paymillcheckout.acceptedBrands) {
+            if (paymillcheckout.acceptedBrands[possibleAcceptableBrand]) {
+                allDisabled = false;
+            }
+        }
+
+        if ((brand !== 'unknown' && paymillcheckout.acceptedBrands[brand]) || allDisabled) {
+            $('#paymill-card-number').addClass("paymill-card-number-" + brand);
+            if (!detector.validate(cardnumber)) {
+                $('#paymill-card-number').addClass("paymill-card-number-grayscale");
+            }
+        }
+    });
+
+    $('#paymill-card-expirydate').keyup(function() {
+        var expiryDate = $("#paymill-card-expirydate").val();
+        if (expiryDate.match(/^\d\d$/)) {
+            expiryDate += "/";
+            $("#paymill-card-expirydate").val(expiryDate);
+        }
+    });
+
+    $('#paymill_fast_checkout_iframe_change').click(function (event) {
+        $( "#paymill_fast_checkout_table" ).remove();
+        paymillEmbedFrame();
+    });
+
+
+});

@@ -13,34 +13,28 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}
 
-{if $paymillCardNumber === '' || $paymillMonth === '' || $paymillYear === ''}
-    <script lang="javascript">
+{if $prefilledFormData.last4 === '' || $prefilledFormData.card_holder === 'test' || $prefilledFormData.expire_date === ''}
+    <script lang="text/javascript">
         paymillEmbedFrame();
     </script>
 {else}
     <table id="paymill_fast_checkout_table">
         <tr>
             <td>{l s='Credit Card Number' mod='pigmbhpaymill'}: </td>
-            <td class="paymill-card-number-{$paymillBrand}">{$paymillCardNumber}</td>
-        </tr>
-        <tr>
-            <td>{l s='CVC' mod='pigmbhpaymill'}: </td>
-            <td>{$paymillCvc}</td>
+            <td class="paymill-card-number-{$prefilledFormData.card_type}">{$prefilledFormData.last4}</td>
         </tr>
         <tr>
             <td>{l s='Credit Card Holder' mod='pigmbhpaymill'}: </td>
-            <td>{$paymillCardHolder}</td>
+            <td>{$prefilledFormData.card_holder}</td>
         </tr>
         <tr>
             <td>{l s='Valid until (MM/YYYY)' mod='pigmbhpaymill'}: </td>
-            <td>{$paymillMonth}/{$paymillYear}</td>
+            <td>{$prefilledFormData.expire_date}</td>
         </tr>
         <tr>
+            <td></td>
             <td>
-
-            </td>
-            <td>
-                <button id="paymill_fast_checkout_iframe_change" class="button-middle small" type="button">{l s='Change' mod='pigmbhpaymill'}</button>
+                <button id="paymill_fast_checkout_iframe_change" class="btn btn-default button-small" type="button">{l s='Change' mod='pigmbhpaymill'}</button>
             </td>
         </tr>
     </table>

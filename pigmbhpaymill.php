@@ -166,7 +166,7 @@ class PigmbhPaymill extends PaymentModule {
 			if (_PS_VERSION_ < '1.6')
 				$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_checkout_1_5.css');
 
-			$this->context->controller->addJS('https://bridge.paymill.com/');
+			$this->context->controller->addJS('https://bridge.paymill.com/dss3');
 			$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/BrandDetection.js');
 			$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/Iban.js');
 			$this->context->controller->addJS(__PS_BASE_URI__.'modules/pigmbhpaymill/js/PaymillCheckout.js');

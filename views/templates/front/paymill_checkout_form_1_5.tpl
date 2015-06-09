@@ -34,7 +34,7 @@
         <div id="paymill-error" class="error center" style="display:none;"></div>
         {if $payment == "creditcard"}
             {if $pci_mode == 1}
-                <div id='paymill_form_container'>
+                <div id='paymill_form_container'></div>
                 {include file="$tpl_dir../../modules/pigmbhpaymill/views/templates/front/paymill_checkout_creditcard_saq.tpl"}
             {else}
                 {if $acceptedBrandsDecoded.visa}<img src="{$modul_base|escape:'html':'UTF-8'}img/32x20_visa.png" alt="visa">{/if}

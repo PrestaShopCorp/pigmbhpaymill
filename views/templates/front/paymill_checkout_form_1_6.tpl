@@ -51,7 +51,7 @@
             <div class="col-md-12">
             {if $payment == "creditcard"}
                 {if $pci_mode == 1}
-                    <div id='paymill_form_container'>
+                    <div id='paymill_form_container'></div>
                     {include file="$tpl_dir../../modules/pigmbhpaymill/views/templates/front/paymill_checkout_creditcard_saq.tpl"}
                 {else}
                     <fieldset>
