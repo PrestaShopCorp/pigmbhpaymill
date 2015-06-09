@@ -21,7 +21,11 @@
     <table id="paymill_fast_checkout_table">
         <tr>
             <td>{l s='Credit Card Number' mod='pigmbhpaymill'}: </td>
-            <td class="paymill-card-number-{$prefilledFormData.card_type}">{$prefilledFormData.last4}</td>
+            <td class="paymill-card-number-{$prefilledFormData.card_type}">{if $prefilledFormData.last4}************{$prefilledFormData.last4}{/if}</td>
+        </tr>
+        <tr>
+            <td>{l s='CVC' mod='pigmbhpaymill'}: </td>
+            <td>***</td>
         </tr>
         <tr>
             <td>{l s='Credit Card Holder' mod='pigmbhpaymill'}: </td>
