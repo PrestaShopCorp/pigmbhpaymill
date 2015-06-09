@@ -80,7 +80,7 @@
         stylesheet: '{$stylesheet|escape:'html'}'
         
     };
-    paymillcheckout.iframe.active = {$pci_mode == 1};
+    paymillcheckout.iframe.active = {$pci_mode == 0};
     paymillcheckout.iframe.changefastcheckout = false;
 </script>
 
