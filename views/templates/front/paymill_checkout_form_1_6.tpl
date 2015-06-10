@@ -30,7 +30,7 @@
     <div class="debit col-md-8 col-md-push-2">
         <input type="hidden" name="payment" value="{$payment|escape:'htmlall':'UTF-8'}">
         <div id="paymill-error" class="error center" style="display:none;"></div>
-        {if $payment == "creditcard" && $pci_mode == 0}
+        {if $payment == "creditcard" }
         <div class="row">
             <div class="cc-logos col-md-12">
                 {if $acceptedBrandsDecoded.visa}<img src="{$modul_base|escape:'html':'UTF-8'}img/32x20_visa.png" alt="visa">{/if}
@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-md-12">
             {if $payment == "creditcard"}
-                {if $pci_mode == 1}
+                {if $iframe_active }
                     <div id='paymill_form_container'></div>
                     {include file="$tpl_dir../../modules/pigmbhpaymill/views/templates/front/paymill_checkout_creditcard_saq.tpl"}
                 {else}

@@ -61,6 +61,9 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController {
 		foreach (Tools::jsonDecode(Configuration::get('PIGMBH_PAYMILL_ACCEPTED_BRANDS'), true) as $brand_key => $brand_value)
 			$brands[str_replace('-', '', $brand_key)] = $brand_value;
 
+
+        var_dump(Configuration::get('PIGMBH_PAYMILL_PCI'));
+
 		$data = array(
 			'use_backward_compatible_checkout' => _PS_VERSION_ < '1.6',
 			'nbProducts' => $cart->nbProducts(),
@@ -79,7 +82,7 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController {
 			'prefilledFormData' => $this->updatePaymillPayment($db_data),
 			'acceptedBrands' => Configuration::get('PIGMBH_PAYMILL_ACCEPTED_BRANDS'),
 			'acceptedBrandsDecoded' => $brands,
-                        'pci_mode' => Configuration::get('PIGMBH_PAYMILL_PCI')
+            'iframe_active' => (int)Configuration::get('PIGMBH_PAYMILL_PCI') == 0 // SAQ A -> iframe
 		);
 
 		$this->context->smarty->assign($data);

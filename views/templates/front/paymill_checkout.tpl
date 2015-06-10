@@ -61,7 +61,7 @@
     paymillcheckout.iframe.options = {
         lang: '{l s='en' mod='pigmbhpaymill'}'
     };
-    paymillcheckout.iframe.active = {if $pci_mode == 0}true{else}false{/if};
+    paymillcheckout.iframe.active = '{$iframe_active|escape:'intval'}';
     paymillcheckout.iframe.changefastcheckout = false;
 </script>
 
