@@ -50,6 +50,11 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_0ef6c30ad9be63a09cecd264fbc13
 $_MODULE['<{pigmbhpaymill}prestashop>paymilllog_14a327b10605f16f336e285a50fc471b'] = 'mehr';
 $_MODULE['<{pigmbhpaymill}prestashop>paymilllog_6c7794632edc21ff452a3abed8adb2f8'] = 'Connected Search';
 $_MODULE['<{pigmbhpaymill}prestashop>paymilllog_dcafb98d01cdeea2ff573f2a06c48b58'] = 'Suchen';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_creditcard_saq_5e038f03415db5461c13d380469436cb'] = 'Kreditkartennummer';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_creditcard_saq_5ea7f231296949070013bc43715aae01'] = 'CVC';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_creditcard_saq_c18e5db7284c07ee216b5f079dd544d9'] = 'Kreditkarteninhaber';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_creditcard_saq_4c138ee8980295dbbc6405a7ab4b503c'] = 'Gültig bis (MM/YYYY)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_creditcard_saq_f4ec5f57bd4d31b803312d873be40da9'] = 'Ändern';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_60fee965857f452db39d271c40bf8c79'] = 'PAYMILL Kreditkartenzahlung & ELV';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_f1d3b424cd68795ecaa552883759aceb'] = 'Bestellungsübersicht';
 $_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_572da7ef1411f2a12409e752f3eb2f7a'] = 'Ihr Warenkorb ist leer.';
