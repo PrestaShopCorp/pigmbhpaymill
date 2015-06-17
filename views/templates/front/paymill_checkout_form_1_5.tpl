@@ -33,7 +33,7 @@
         <input type="hidden" name="payment" value="{$payment|escape:'htmlall':'UTF-8'}">
         <div id="paymill-error" class="error center" style="display:none;"></div>
         {if $payment == "creditcard"}
-            {if $pci_mode == 1}
+            {if $iframe_active}
                 <div id='paymill_form_container'></div>
                 {include file="$tpl_dir../../modules/pigmbhpaymill/views/templates/front/paymill_checkout_creditcard_saq.tpl"}
             {else}
