@@ -76,11 +76,11 @@
         </div>
         <div class="clear"></div>
         
-        <label>{l s='PCI-DSS Compliance' mod='pigmbhpaymill'}</label>
+        <label>{l s='Payment form' mod='pigmbhpaymill'}</label>
         <div class="margin-form">
             <select name="pci">
-                <option value="0" {if $config.pci == 0}selected{/if}>SAQ A</option>
-                <option value="1" {if $config.pci == 1}selected{/if}>SAQ A-EP</option>
+                <option value="0" {if $config.pci == 0}selected{/if}>{l s='embedded PayFrame (requires PCI SAQ A)' mod='pigmbhpaymill'}</option>
+                <option value="1" {if $config.pci == 1}selected{/if}>{l s='direct integration (requires PCI SAQ A-EP)' mod='pigmbhpaymill'}</option>
             </select>
         </div>
         <div class="clear"></div>
