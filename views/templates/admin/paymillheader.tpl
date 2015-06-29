@@ -12,62 +12,62 @@
 *  @copyright 2012-2014 PAYMILL
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}
-<!--Features-->
-<fieldset style="position:relative">
-    <legend>{l s='Features' mod='pigmbhpaymill'}</legend>
-    <img src="https://static.paymill.com/r/f215617e88bb5c66dcc3bd0bf94be172ea052ac6/img/paymill-logo.png">
-    <p>{l s='PAYMILL is your one-stop solution for online payments. Let your customers pay directly on your online store without redirecting them and benefit from higher conversions.' mod='pigmbhpaymill'}</p>
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<div class="container" id="paymill-modul"> 
+    <div class="row" style="margin-top: 60px;">
+        <div class="col-md-12"><img src="{$include.img|escape:'html':'UTF-8'}/logo.png" alt=""></div>
+    </div>
 
-    <p><b>{l s='Your Payments Secured' mod='pigmbhpaymill'}</b><br>
-        {l s='With our Level-1 PCI Compliance we’ve got you covered with the highest security and data protection standards. Your customers’ payment data is handled by us – making it even faster for you to start accepting online payments.' mod='pigmbhpaymill'}
-    </p>
+    <div class="row" style="margin-top: 40px;">
+        <div class="col-md-12">
+          <h3>Ob neu im eCommerce oder bereits erfolgreicher Onlinehändler, akzeptieren Sie mit PAYMILL Kreditkarten- und SEPA-Zahlungen innnerhalb eines Moduls.</h3>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <h4 class="h6" style="margin-top: 40px;">Kreditkartenakzeptanz aus einer Hand </h4>
+          <p>PAYMILL stellt Ihnen die technische Schnittstelle durch das Modul, sowie das obligatorische Händlerkonto bei einer Partner-Bank.</p>
+          <h4 class="h6" style="margin-top: 30px;">Erhöhen Sie Ihre Kaufabschlussrate</h4>
+          <p>Durch das Nutzen des PAYMILL Moduls, bleiben Kunden während des Kaufvorgangs in Ihrem Shop und müssen diesen zum Bezahlen nicht verlassen.</p>
+          <h4 class="h6" style="margin-top: 30px;">Eine Lösung, die mit Ihnen wächst</h4>
+          <p>Wählen Sie zusätzliche Zahlkarten, sowie Transaktionswährungen in Ihrem PAYMILL Konto hinzu, um neue internationale Märkte und Kunden zu erschließen.</p>
+          <p style="margin-top: 20px;"><a href="#" class="btn btn-lg btn-block btn-primary">Jetzt bei PAYMILL registrieren</a></p>                    
+        </div>
+        <div class="col-lg-5 col-lg-offset-1 col-sm-6">
+          <div class="panel panel-default" style="margin-top: 40px;">
+            <div class="panel-body" style="padding: 20px 40px 40px;">
+              <h3>Features im Überblick</h3>
+              <ul>
+                  <li>Keine Weiterleitung</li>
+                  <li>Kostenloses Händlerkonto</li>
+                  <li>Integrierte Betrugsprävention</li>
+                  <li>Transparente Gebühren</li>
+                  <li>100 verfügbare Transaktionswährungen</li>
+                  <li>Persönlicher Support aus München</li>
+              </ul>
+              <p style="margin-top: 40px; width: 100%;">
+                <img src="{$include.img|escape:'html':'UTF-8'}/pm_pci_240x96-PCI.png" alt="" class="img-responsive" style="margin: 0px auto;">
+              </p>  
+            </div>
+          </div>
+        </div>
+    </div>
 
-    <p><b>{l s='Accept Payments Worldwide' mod='pigmbhpaymill'}</b><br>
-        {l s='Reach a global market by accepting payments from around the world and in up to 100 different currencies.' mod='pigmbhpaymill'}
-    </p>
+    <div class="row">
+      <div class="col-lg-6 col-sm-12" style="margin-top: 20px;">
+          <img src="{$include.img|escape:'html':'UTF-8'}/payment.png" alt="" class="img-responsive" style="margin: 0px auto;">
+      </div>
+      <div class="col-lg-5 col-lg-offset-1 col-sm-12" style="margin-top: 20px;">
+        <p class="text-center"><small>Noch Fragen? sales@paymill.com +49 89 189 045 300</small></p>
+      </div>
+    </div>
 
-    <p><b>{l s='One-Click Checkout' mod='pigmbhpaymill'}</b><br>
-        {l s='Save your customers time by letting them store their payment information securely on our servers for future purchases. All they need to do is click to buy!' mod='pigmbhpaymill'}
-    </p>
-
-    <p><b>{l s='FEATURES' mod='pigmbhpaymill'}</b><br>
-    <ol style="list-style-type:disc;list-style-position:inside">
-        <li>{l s='All major credit and debit cards supported (Visa, MasterCard, American Express)' mod='pigmbhpaymill'}</li>
-        <li>{l s='Available in 40 countries and accept payments from around the world' mod='pigmbhpaymill'}</li>
-        <li>{l s='accepting up to 100 different currencies' mod='pigmbhpaymill'}</li>
-        <li>{l s='Free merchant account' mod='pigmbhpaymill'}</li>
-        <li>{l s='Free fraud protection to keep you safe' mod='pigmbhpaymill'}</li>
-        <li>{l s='No set-up fees and no monthly fees' mod='pigmbhpaymill'}</li>
-        <li>{l s='Only pay per transaction with standard pricing at 2.95% + 0,28€ (incl. Bank fees)' mod='pigmbhpaymill'}</li>
-        <li>{l s='Easy-to-integrate payment gateway' mod='pigmbhpaymill'}</li>
-        <li>{l s='Keep your customers in your store with no redirects and iframes' mod='pigmbhpaymill'}</li>
-        <li>{l s='Your payments secured with Level 1 PCI compliance!!' mod='pigmbhpaymill'}</li>
-    </ol>
-</fieldset>
-    
-<!--Get Started-->
-<fieldset style="position:relative">
-    <legend>{l s='Get Started' mod='pigmbhpaymill'}</legend>
-        <b>{l s='Only 4 steps are missing to your first transaction' mod='pigmbhpaymill'}:</b><br/>
-        <ol style="list-style-type:decimal;list-style-position:inside">
-            <li>{l s='Register for free with your e-mail address to start testing paymill (no real transactions)' mod='pigmbhpaymill'}
-                <br>
-                <a style="padding-left:13px" href="https://app.paymill.com/user/register?referrer=prestashop" target="_blank">{l s='Open PAYMILL-Account' mod='pigmbhpaymill'}</a>
-            </li>
-            <br>
-            <li>{l s='Make sure your website is ready for the PAYMILL activation process by consulting our ComplianceGuide. Fill out the activation form afterwards. You will then receive your contract.' mod='pigmbhpaymill'}
-                <br>
-                <a style="padding-left:13px" href="https://support.paymill.com/hc/de/article_attachments/200658737/paymill_complianceguide-EN.pdf" target="_blank">{l s='Open Compliance guide' mod='pigmbhpaymill'}</a>
-            </li>
-            <br>
-            <li>{l s='Follow the instructions indicated on the first page of the contract PDF. Sign the contract and send it to us with the additionally required documents (e.g. Passport copy, Company registration)' mod='pigmbhpaymill'}</li>
-            <br>
-            <li>{l s='Once your account has been activated, insert your API live-keys, and you are good to go!' mod='pigmbhpaymill'}</li>
-        </ol>
-
-        <p>{l s='Are you already registered with PAYMILL?' mod='pigmbhpaymill'}</p>
-    <form action="https://app.paymill.com/user/register" target="_blank">
-        <input type="hidden" name="referrer" value="prestashop">
-        <input type="submit" value="{l s='CREATE AN ACCOUNT' mod='pigmbhpaymill'}" class="paymill_config_button">
-    </form>
-</fieldset>
+    <div class="row" style="margin-top: 40px;">
+      <div class="col-md-12">
+        <div class="alert alert-info" role="alert">
+          <small><strong>Hinweis</strong> Ihre Live-Keys zur Nutzung dieses Moduls erhalten Sie nach der Aktivierung Ihres PAYMILL Kontos.</small>
+        </div>
+      </div>
+    </div>
+</div>
