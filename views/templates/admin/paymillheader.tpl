@@ -17,7 +17,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 <div id="paymill_getstarted">
-    <div class="container" id="paymill-modul"> 
+    <div id="paymill-modul"> 
         <div class="row" style="margin-top: 60px;">
             <div class="col-md-12"><img src="{$include.img|escape:'html':'UTF-8'}/logo.png" alt=""></div>
         </div>
