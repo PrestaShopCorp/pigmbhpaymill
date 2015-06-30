@@ -45,13 +45,13 @@
             <input type="checkbox" name="capture_option" {$config.capture_option|escape:'htmlall':'UTF-8'} />
         </div>
         <div class="clear"></div>
-        
+
         <label>{l s='Activate fastCheckout' mod='pigmbhpaymill'}</label>
         <div class="margin-form">
             <input type="checkbox" name="fastcheckout" {$config.fastcheckout|escape:'htmlall':'UTF-8'} />
         </div>
         <div class="clear"></div>
-        
+
         <label>{l s='Activate debugging' mod='pigmbhpaymill'}</label>
         <div class="margin-form">
             <input type="checkbox" name="debug" {$config.debug|escape:'htmlall':'UTF-8'} />
@@ -75,7 +75,7 @@
             <input type="text" class="paymill_config_text" name="publickey" value="{$config.publickey|escape:'htmlall':'UTF-8'}" />
         </div>
         <div class="clear"></div>
-        
+
         <label>{l s='PCI-DSS Compliance' mod='pigmbhpaymill'}</label>
         <div class="margin-form">
             <select name="pci">
@@ -84,7 +84,7 @@
             </select>
         </div>
         <div class="clear"></div>
-        
+
         <label>{l s='Days until the debit' mod='pigmbhpaymill'}</label>
         <div class="margin-form">
             <input type="text" class="paymill_config_text" name="debit_days" value="{$config.debit_days|escape:'htmlall':'UTF-8'}" />
