@@ -146,11 +146,13 @@ function PaymillResponseHandler(error, result)
         $("#submitButton").removeAttr('disabled');
         debug("API returned error(RAW): " + error.apierror);
         debug("API returned error: " + getErrorMessage(error.apierror));
-        alert("API returned error: " + getErrorMessage(error.apierror));
-        paymillcheckout.submitted = false;
-        if (error.apierror === 'invalid_public_key' || error.apierror === 'unknown_error') {
-            location.href = 'index.php?controller=order&step=3&paymillerror=1&errorCode=10001';
-        }
+		if (!paymillcheckout.iframe.active) {
+			alert("API returned error: " + getErrorMessage(error.apierror));
+			paymillcheckout.submitted = false;
+			if (error.apierror === 'invalid_public_key' || error.apierror === 'unknown_error') {
+				location.href = 'index.php?controller=order&step=3&paymillerror=1&errorCode=10001';
+			}
+		}
     } else {
         debug("Received token from Paymill API: " + result.token);
         var form = $("#paymill_form");

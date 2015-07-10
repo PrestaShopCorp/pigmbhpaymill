@@ -15,6 +15,9 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_4355c4db961539628702c5818ddb7
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_3132e398e6e7acace9290305a55a7d25'] = 'Activar el registro';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_d2560860c51f895a9871741f0805c39e'] = 'Clave privada';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_37c5b6e7c4291021b6100a6754ae7ffe'] = 'Clave pública';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_cfb6a754d17a1ade457e32f7d04e6f4e'] = 'Payment form';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_433b9cd7c2eadecf058ccf41a85d8ffe'] = 'embedded PayFrame (requires PCI SAQ A)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_da57c59478718debe92ac67e60b3138f'] = 'direct integration (requires PCI SAQ A-EP)';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_c9cc8cce247e49bae79f15173ce97354'] = 'Guardar';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_98f770b0af18ca763421bac22b4b6805'] = 'Funciónes';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_b797d7be96efe55022d380168de71341'] = 'PAYMILL le ofrece un servicio de pagos integral. Brinde a sus clientes la oportunidad de pagar con tarjeta de crédito o a través de domiciliación bancaria directamente en su página web, sin necesidad de redirigirlos a otras páginas. Benefíciese de mayores tasas de compra.';

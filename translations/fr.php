@@ -15,6 +15,9 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_4355c4db961539628702c5818ddb7
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_3132e398e6e7acace9290305a55a7d25'] = 'Activer la journalisation.';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_d2560860c51f895a9871741f0805c39e'] = 'Clé privée';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_37c5b6e7c4291021b6100a6754ae7ffe'] = 'Clé publique';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_cfb6a754d17a1ade457e32f7d04e6f4e'] = 'Formulaire de paiement';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_433b9cd7c2eadecf058ccf41a85d8ffe'] = 'PayFrame intégré (nécessite PCI SAQ A)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_da57c59478718debe92ac67e60b3138f'] = 'integration direct (nécessite PCI SAQ A-EP)';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_c9cc8cce247e49bae79f15173ce97354'] = 'Sauvegarder';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_98f770b0af18ca763421bac22b4b6805'] = 'Fonctions';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_b797d7be96efe55022d380168de71341'] = 'PAYMILL vous propose une solution de paiement en ligne via un seul et même service. Permettez aux clients de votre boutique en ligne de payer directement par carte ou prélèvement bancaire sur votre site, sans qu\'ils soient redirigés sur une autre page Web. Vous profitez ainsi de taux d\'achat plus élevés.';

@@ -12,6 +12,9 @@ $_MODULE["<{pigmbhpaymill}prestashop>paymillconfig_3132e398e6e7acace9290305a55a7
 $_MODULE["<{pigmbhpaymill}prestashop>paymillconfig_db5acc95be6e6b2a02e5bf3516387883"] = "Abilitare pagamento veloce";
 $_MODULE["<{pigmbhpaymill}prestashop>paymillconfig_d2560860c51f895a9871741f0805c39e"] = "Chiave privata";
 $_MODULE["<{pigmbhpaymill}prestashop>paymillconfig_37c5b6e7c4291021b6100a6754ae7ffe"] = "Chiave pubblica";
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_cfb6a754d17a1ade457e32f7d04e6f4e'] = 'Payment form';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_433b9cd7c2eadecf058ccf41a85d8ffe'] = 'embedded PayFrame (requires PCI SAQ A)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_da57c59478718debe92ac67e60b3138f'] = 'direct integration (requires PCI SAQ A-EP)';
 $_MODULE["<{pigmbhpaymill}prestashop>paymillconfig_c9cc8cce247e49bae79f15173ce97354"] = "Salva";
 $_MODULE["<{pigmbhpaymill}prestashop>paymilllog_6c7794632edc21ff452a3abed8adb2f8"] = "Ricerca connessa";
 $_MODULE["<{pigmbhpaymill}prestashop>paymilllog_dcafb98d01cdeea2ff573f2a06c48b58"] = "Ricerca";

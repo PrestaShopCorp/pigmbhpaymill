@@ -61,9 +61,6 @@ class PigmbhpaymillPaymentModuleFrontController extends ModuleFrontController {
 		foreach (Tools::jsonDecode(Configuration::get('PIGMBH_PAYMILL_ACCEPTED_BRANDS'), true) as $brand_key => $brand_value)
 			$brands[str_replace('-', '', $brand_key)] = $brand_value;
 
-
-        var_dump(Configuration::get('PIGMBH_PAYMILL_PCI'));
-
 		$data = array(
 			'use_backward_compatible_checkout' => _PS_VERSION_ < '1.6',
 			'nbProducts' => $cart->nbProducts(),
