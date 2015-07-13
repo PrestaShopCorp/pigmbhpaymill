@@ -60,6 +60,7 @@ $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_db4d7b1139c5f5887
 $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_9fa45a4dfd768b1faa4d245792fbd185"] = "I campi contrassegnati con * sono obbligatori.";
 $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_3adf712b8413a09c3c9de40a5b23fc5d"] = "Selezione pagamento";
 $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_5_a240fa27925a635b08dc28c9e4f9216d"] = "Ordine";
+$_MODULE['<{pigmbhpaymill}prestashop>paymill_checkout_9cfefed8fb9497baa5cd519d7d2bb5d7'] = 'it';
 $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_60fee965857f452db39d271c40bf8c79"] = "Addebito diretto e pagamenti con carta di credito PAYMILL";
 $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_f1d3b424cd68795ecaa552883759aceb"] = "Sintesi ordine";
 $_MODULE["<{pigmbhpaymill}prestashop>paymill_checkout_form_1_6_572da7ef1411f2a12409e752f3eb2f7a"] = "Il carrello è vuoto";
@@ -82,3 +83,5 @@ $_MODULE["<{pigmbhpaymill}prestashop>payment_89ce55b91d58a25f4271514be6b1146e"] 
 $_MODULE["<{pigmbhpaymill}prestashop>validation_56a51b7f616a536703192e16850d23c2"] = "Addebito diretto";
 $_MODULE["<{pigmbhpaymill}prestashop>validation_73a61696f100b3858511e212a3feea6b"] = "Carta di credito";
 $_MODULE["<{pigmbhpaymill}prestashop>confirmation_7a223127bd5f4a87a989fb8c560bb15b"] = "Grazie per il suo ordine";
+$_MODULE['<{pigmbhpaymill}prestashop>pigmbhpaymill_89ce55b91d58a25f4271514be6b1146e'] = 'Addebito diretto';
+$_MODULE['<{pigmbhpaymill}prestashop>pigmbhpaymill_9300f4d366a0f5e0b57afef7e8a7474d'] = 'Carta di credito';
