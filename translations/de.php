@@ -17,9 +17,9 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_4355c4db961539628702c5818ddb7
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_3132e398e6e7acace9290305a55a7d25'] = 'Logging aktivieren';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_d2560860c51f895a9871741f0805c39e'] = 'Private Key';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_37c5b6e7c4291021b6100a6754ae7ffe'] = 'Public Key';
-$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_cfb6a754d17a1ade457e32f7d04e6f4e'] = 'Zahlungsformular';
-$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_433b9cd7c2eadecf058ccf41a85d8ffe'] = 'eingebettetes PayFrame (erfordert PCI SAQ A)';
-$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_da57c59478718debe92ac67e60b3138f'] = 'direkte Integration (erfordert PCI SAQ A-EP)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_3264e97baf14f374cce8b335a572bc35'] = 'Zahlungsformular';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_810767e2044fcb201cb4cc93d04d97a2'] = 'eingebettetes PayFrame (erfordert PCI SAQ A)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_32a2b85f71b6d60c70cc1b42a729cf93'] = 'direkte Integration (erfordert PCI SAQ A-EP)';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_30527332311e3b5c731a71062cbee7e5'] = 'Tage bis zum Einzug';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_59a10f6da66d0a5a4f7d7c76fa275b01'] = 'Akzeptierte Kreditkarten';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_c9cc8cce247e49bae79f15173ce97354'] = 'Speichern';

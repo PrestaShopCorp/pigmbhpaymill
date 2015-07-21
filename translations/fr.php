@@ -15,9 +15,9 @@ $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_4355c4db961539628702c5818ddb7
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_3132e398e6e7acace9290305a55a7d25'] = 'Activer la journalisation.';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_d2560860c51f895a9871741f0805c39e'] = 'Clé privée';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_37c5b6e7c4291021b6100a6754ae7ffe'] = 'Clé publique';
-$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_cfb6a754d17a1ade457e32f7d04e6f4e'] = 'Formulaire de paiement';
-$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_433b9cd7c2eadecf058ccf41a85d8ffe'] = 'PayFrame intégré (nécessite PCI SAQ A)';
-$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_da57c59478718debe92ac67e60b3138f'] = 'integration direct (nécessite PCI SAQ A-EP)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_3264e97baf14f374cce8b335a572bc35'] = 'Formulaire de paiement';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_810767e2044fcb201cb4cc93d04d97a2'] = 'PayFrame intégré (nécessite PCI SAQ A)';
+$_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_32a2b85f71b6d60c70cc1b42a729cf93'] = 'integration direct (nécessite PCI SAQ A-EP)';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillconfig_c9cc8cce247e49bae79f15173ce97354'] = 'Sauvegarder';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_5206adaccb5855446c1cd255c50eacba'] = 'Que vous débutiez dans l\'e-commerce ou que vous disposiez déjà d\'une longue expérience, PAYMILL vous permet d\'accepter simplement les paiements par cartes de crédit et de débit.';
 $_MODULE['<{pigmbhpaymill}prestashop>paymillheader_5a2260e8cc3ab3f14fce4bbae221883f'] = 'TOUS VOS PAIEMENTS EN LIGNE DEPUIS UNE PLATEFORME UNIQUE';
