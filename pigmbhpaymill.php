@@ -221,14 +221,14 @@ class PigmbhPaymill extends PaymentModule {
                     $payments[] = array(
                         'cta_text' => $this->l('Paymill Directdebit'),
                         'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
-                        'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'debit'))
+                        'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'debit'), true)
                     );
                 }
                 if(Configuration::get('PIGMBH_PAYMILL_CREDITCARD') === 'on'){
                     $payments[] = array(
                         'cta_text' => $this->l('Paymill Creditcard'),
                         'logo' => Media::getMediaPath(dirname(__FILE__).'/img/icon-hook.png'),
-                        'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'creditcard'))
+                        'action' => $this->context->link->getModuleLink($this->name, 'payment', array('payment' => 'creditcard'), true)
                     );
                 }
 
