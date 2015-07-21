@@ -3,6 +3,7 @@
 * added refund within shop-administration
 * added capture within shop-administration
 * added preauth/capture feature for manually capture
+* add ssl support for the payment form page
 
 ## 2.0.1 - 2014-09-09
 * Changed register url and added referrer
