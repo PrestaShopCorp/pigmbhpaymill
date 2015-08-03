@@ -76,21 +76,21 @@ class ConfigurationModel {
 	 */
 	private $pci;
 
-        /**
-         * @return string
-         */
-        function getPci()
-        {
-            return $this->pci;
-        }
+    /**
+     * @return string
+     */
+    public function getPci()
+    {
+        return $this->pci;
+    }
 
-        /**
-         * @param string $pci
-         */
-        function setPci($pci)
-        {
-            $this->pci = $pci;
-        }
+    /**
+     * @param string $pci
+     */
+    public function setPci($pci)
+    {
+        $this->pci = $pci;
+    }
 
 	/**
 	 * @return string

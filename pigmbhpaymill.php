@@ -163,7 +163,7 @@ class PigmbhPaymill extends PaymentModule {
 		if ($this->name === Tools::getValue('module'))
 		{
 			$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_styles.css');
-			$this->context->controller->addCSS('http://fonts.googleapis.com/css?family=Open+Sans:400,300,700');
+			$this->context->controller->addCSS('https://fonts.googleapis.com/css?family=Open+Sans:400,300,700');
 			if (_PS_VERSION_ < '1.6')
 				$this->context->controller->addCSS(__PS_BASE_URI__.'modules/pigmbhpaymill/css/paymill_checkout_1_5.css');
 
