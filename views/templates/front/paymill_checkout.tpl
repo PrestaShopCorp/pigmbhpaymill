@@ -62,6 +62,7 @@
         lang: '{l s='en' mod='pigmbhpaymill'}'
     };
     paymillcheckout.iframe.active = '{$iframe_active|escape:'intval'}';
+    paymillcheckout.iframe.create = false;
     paymillcheckout.iframe.changefastcheckout = false;
 </script>
 

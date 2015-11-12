@@ -15,7 +15,7 @@
 
 {if $prefilledFormData.last4 == '' || $prefilledFormData.expire_date == ''}
     <script lang="text/javascript">
-        paymillEmbedFrame();
+        paymillcheckout.iframe.create = true;
     </script>
 {else}
     <table id="paymill_fast_checkout_table">

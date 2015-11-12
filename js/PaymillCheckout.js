@@ -246,6 +246,9 @@ function paymillEmbedFrame()
 }
 
 $(document).ready(function() {
+    if(paymillcheckout.iframe.create){
+        paymillEmbedFrame();
+    }
     paymillcheckout.prefilled = getFormData(paymillcheckout.prefilled, true);
     $("#paymill_form").submit(function(event) {
         if (!paymillcheckout.submitted) {
