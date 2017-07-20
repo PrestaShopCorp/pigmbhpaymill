@@ -1,3 +1,12 @@
+## 2.3.0 - 2017-07-19
+* Remove CURLOPT_CAINFO - path to Certificate Authority (CA) bundle
+* Remove paymill.crt
+* Change user agent info to "Paymill-Prestashop/2.3.0"
+* Merge changes https://github.com/PrestaShop/pigmbhpaymill
+
+## 2.2.x - 2015-11-16
+* See https://github.com/PrestaShop/pigmbhpaymill/commit/a386c148c4c0c9d2b8148b1bfb92a05999239827 (deprectaed - went out of sync)
+
 ## 2.1.0 - 2014-10-01
 * added compatibility for EU-Legal(https://github.com/EU-Legal/modules)
 * added refund within shop-administration
